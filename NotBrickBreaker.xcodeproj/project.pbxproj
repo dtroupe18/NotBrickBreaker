@@ -8,7 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		554FA9D12038CD2300E61639 /* BackgroundMusic.wav in Resources */ = {isa = PBXBuildFile; fileRef = 554FA9CF2038CD2300E61639 /* BackgroundMusic.wav */; };
-		554FA9D22038CD2300E61639 /* bounceSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 554FA9D02038CD2300E61639 /* bounceSound.wav */; };
+		554FA9D22038CD2300E61639 /* paddleHitSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 554FA9D02038CD2300E61639 /* paddleHitSound.wav */; };
+		554FAA15203A183000E61639 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FAA14203A183000E61639 /* GameOverScene.swift */; };
+		554FAA18203A298300E61639 /* Waiting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FAA17203A298300E61639 /* Waiting.swift */; };
+		554FAA1A203A298F00E61639 /* Playing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FAA19203A298F00E61639 /* Playing.swift */; };
+		554FAA1D203A29A100E61639 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FAA1C203A29A100E61639 /* GameOver.swift */; };
+		554FAA1F203A392E00E61639 /* brickHitSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA1E203A392E00E61639 /* brickHitSound.wav */; };
+		554FAA21203A3B6300E61639 /* gameOverSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA20203A3B6300E61639 /* gameOverSound.wav */; };
+		554FAA25203A415A00E61639 /* Flame.sks in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA23203A415A00E61639 /* Flame.sks */; };
+		554FAA26203A415A00E61639 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA24203A415A00E61639 /* Assets.xcassets */; };
+		554FAA28203A41E700E61639 /* Bokeh.sks in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA27203A41E700E61639 /* Bokeh.sks */; };
+		554FAA2A203A420400E61639 /* Magic.sks in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA29203A420400E61639 /* Magic.sks */; };
+		554FAA2C203A421F00E61639 /* Spark.sks in Resources */ = {isa = PBXBuildFile; fileRef = 554FAA2B203A421F00E61639 /* Spark.sks */; };
 		555E96EF2038B286005C06ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555E96EE2038B286005C06ED /* AppDelegate.swift */; };
 		555E96F12038B286005C06ED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 555E96F02038B286005C06ED /* GameScene.sks */; };
 		555E96F32038B286005C06ED /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 555E96F22038B286005C06ED /* Actions.sks */; };
@@ -40,7 +51,18 @@
 
 /* Begin PBXFileReference section */
 		554FA9CF2038CD2300E61639 /* BackgroundMusic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BackgroundMusic.wav; sourceTree = "<group>"; };
-		554FA9D02038CD2300E61639 /* bounceSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bounceSound.wav; sourceTree = "<group>"; };
+		554FA9D02038CD2300E61639 /* paddleHitSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = paddleHitSound.wav; sourceTree = "<group>"; };
+		554FAA14203A183000E61639 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		554FAA17203A298300E61639 /* Waiting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Waiting.swift; sourceTree = "<group>"; };
+		554FAA19203A298F00E61639 /* Playing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playing.swift; sourceTree = "<group>"; };
+		554FAA1C203A29A100E61639 /* GameOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
+		554FAA1E203A392E00E61639 /* brickHitSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = brickHitSound.wav; sourceTree = "<group>"; };
+		554FAA20203A3B6300E61639 /* gameOverSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gameOverSound.wav; sourceTree = "<group>"; };
+		554FAA23203A415A00E61639 /* Flame.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Flame.sks; sourceTree = "<group>"; };
+		554FAA24203A415A00E61639 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		554FAA27203A41E700E61639 /* Bokeh.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Bokeh.sks; sourceTree = "<group>"; };
+		554FAA29203A420400E61639 /* Magic.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Magic.sks; sourceTree = "<group>"; };
+		554FAA2B203A421F00E61639 /* Spark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Spark.sks; sourceTree = "<group>"; };
 		555E96EB2038B286005C06ED /* NotBrickBreaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotBrickBreaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		555E96EE2038B286005C06ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		555E96F02038B286005C06ED /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -87,10 +109,43 @@
 		554FA9CE2038CD1900E61639 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				554FAA20203A3B6300E61639 /* gameOverSound.wav */,
+				554FAA1E203A392E00E61639 /* brickHitSound.wav */,
 				554FA9CF2038CD2300E61639 /* BackgroundMusic.wav */,
-				554FA9D02038CD2300E61639 /* bounceSound.wav */,
+				554FA9D02038CD2300E61639 /* paddleHitSound.wav */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		554FAA13203A17F600E61639 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				555E96F42038B286005C06ED /* GameScene.swift */,
+				554FAA14203A183000E61639 /* GameOverScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		554FAA16203A295D00E61639 /* GameStates */ = {
+			isa = PBXGroup;
+			children = (
+				554FAA17203A298300E61639 /* Waiting.swift */,
+				554FAA19203A298F00E61639 /* Playing.swift */,
+				554FAA1C203A29A100E61639 /* GameOver.swift */,
+			);
+			path = GameStates;
+			sourceTree = "<group>";
+		};
+		554FAA22203A412700E61639 /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				554FAA23203A415A00E61639 /* Flame.sks */,
+				554FAA27203A41E700E61639 /* Bokeh.sks */,
+				554FAA29203A420400E61639 /* Magic.sks */,
+				554FAA2B203A421F00E61639 /* Spark.sks */,
+				554FAA24203A415A00E61639 /* Assets.xcassets */,
+			);
+			path = Particles;
 			sourceTree = "<group>";
 		};
 		555E96E22038B286005C06ED = {
@@ -116,11 +171,13 @@
 		555E96ED2038B286005C06ED /* NotBrickBreaker */ = {
 			isa = PBXGroup;
 			children = (
+				554FAA16203A295D00E61639 /* GameStates */,
+				554FAA13203A17F600E61639 /* Scenes */,
+				554FAA22203A412700E61639 /* Particles */,
 				554FA9CE2038CD1900E61639 /* Sounds */,
 				555E96EE2038B286005C06ED /* AppDelegate.swift */,
 				555E96F02038B286005C06ED /* GameScene.sks */,
 				555E96F22038B286005C06ED /* Actions.sks */,
-				555E96F42038B286005C06ED /* GameScene.swift */,
 				555E96F62038B286005C06ED /* GameViewController.swift */,
 				555E96F82038B286005C06ED /* Main.storyboard */,
 				555E96FB2038B286005C06ED /* Assets.xcassets */,
@@ -255,12 +312,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				554FAA21203A3B6300E61639 /* gameOverSound.wav in Resources */,
 				554FA9D12038CD2300E61639 /* BackgroundMusic.wav in Resources */,
+				554FAA26203A415A00E61639 /* Assets.xcassets in Resources */,
+				554FAA2C203A421F00E61639 /* Spark.sks in Resources */,
 				555E96FA2038B286005C06ED /* Main.storyboard in Resources */,
+				554FAA2A203A420400E61639 /* Magic.sks in Resources */,
 				555E96F12038B286005C06ED /* GameScene.sks in Resources */,
 				555E96FC2038B286005C06ED /* Assets.xcassets in Resources */,
-				554FA9D22038CD2300E61639 /* bounceSound.wav in Resources */,
+				554FAA25203A415A00E61639 /* Flame.sks in Resources */,
+				554FA9D22038CD2300E61639 /* paddleHitSound.wav in Resources */,
 				555E96FF2038B286005C06ED /* LaunchScreen.storyboard in Resources */,
+				554FAA28203A41E700E61639 /* Bokeh.sks in Resources */,
+				554FAA1F203A392E00E61639 /* brickHitSound.wav in Resources */,
 				555E96F32038B286005C06ED /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,9 +350,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				554FAA1A203A298F00E61639 /* Playing.swift in Sources */,
+				554FAA18203A298300E61639 /* Waiting.swift in Sources */,
+				554FAA1D203A29A100E61639 /* GameOver.swift in Sources */,
 				555E96F52038B286005C06ED /* GameScene.swift in Sources */,
 				555E96F72038B286005C06ED /* GameViewController.swift in Sources */,
 				555E96EF2038B286005C06ED /* AppDelegate.swift in Sources */,
+				554FAA15203A183000E61639 /* GameOverScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
