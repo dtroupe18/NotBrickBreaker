@@ -9,6 +9,7 @@
 import SpriteKit
 import GameplayKit
 import AVFoundation
+import CoreMotion
 
 let ballCategoryName = "ball"
 let paddleCategoryName = "paddle"
@@ -17,7 +18,19 @@ let tapLabelCategoryName = "tapLabel"
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var fingerIsOnPaddle = false
+    let paddle = SKSpriteNode(imageNamed: "Paddle")
+    
+    let motionManager = CMMotionManager()
+    var newX: CGFloat?
+    
+    // Game Timer
+    //
+    var timeLabel = SKLabelNode(fontNamed: "ArialMT")
+    var timeValue: Int = 0 {
+        didSet {
+            timeLabel.text = "\(timeValue)"
+        }
+    }
     
     lazy var gameState: GKStateMachine = GKStateMachine(states: [
         Waiting(scene: self),
@@ -42,6 +55,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override init(size: CGSize) {
         super.init(size: size)
         
+        // Assign contact delegate to this class
+        //
         self.physicsWorld.contactDelegate = self
         
         // Marker: Music
@@ -72,10 +87,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.friction = 0
         self.physicsBody?.restitution = 1
         
+        // Marker: Time Label
+        //
+        timeLabel.fontColor = SKColor.white
+        timeLabel.fontSize = 40
+        timeLabel.position = CGPoint(x: self.frame.size.width - 50, y: self.frame.size.height - 50)
+        timeLabel.text = "\(timeValue)"
+        self.addChild(timeLabel)
+        
         // Marker: Tap to Start
         //
         let tapLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
-        tapLabel.fontSize = 46
+        tapLabel.fontSize = 40
         tapLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 30)
         tapLabel.text = "Tap to start playing"
         tapLabel.name = tapLabelCategoryName
@@ -116,7 +139,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Marker: Paddle
         //
-        let paddle = SKSpriteNode(imageNamed: "Paddle")
         paddle.name = paddleCategoryName
         paddle.position = CGPoint(x: self.frame.midX, y: paddle.frame.height * 2)
         
@@ -124,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle.physicsBody?.categoryBitMask = paddleCategoryBitMask
         paddle.physicsBody?.friction = 0.4
         paddle.physicsBody?.linearDamping = 0
-        paddle.physicsBody?.restitution = 0.1 // NOT SURE
+        paddle.physicsBody?.restitution = 0.1 // Not sure
         paddle.physicsBody?.isDynamic = false
         self.addChild(paddle)
         
@@ -169,7 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 brick.physicsBody = SKPhysicsBody(rectangleOf: brick.frame.size)
                 brick.physicsBody?.linearDamping = 0
                 brick.physicsBody?.allowsRotation = false
-                brick.physicsBody?.isDynamic = false // Prevents the ball slowing down when it gets hit
+                brick.physicsBody?.isDynamic = false // Prevents the ball from slowing down when it hits a brick
                 brick.physicsBody?.affectedByGravity = false
                 brick.physicsBody?.friction = 0.0
                 brick.physicsBody?.categoryBitMask = brickCategoryBitMask
@@ -179,54 +201,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func startTimer() {
+        let wait = SKAction.wait(forDuration: 1.0)
+        let block = SKAction.run({
+            self.timeValue += 1
+        })
+        let sequence = SKAction.sequence([wait, block])
+        run(SKAction.repeatForever(sequence), withKey: "Timer")
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         gameState.update(deltaTime: currentTime)
+        
+        if let xValue = newX {
+            let moveAction = SKAction.move(to: CGPoint(x: xValue, y: paddle.position.y), duration: 0.125)
+            paddle.run(moveAction)
+        }
     }
     
+    func manageDeviceMotion() {
+        // Move the paddle by tilting the screen
+        // Since this game is played in landscape we are concerned with acceleration in the y direction
+        //
+        if motionManager.isAccelerometerAvailable {
+            motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: { data, error in
+                if let data = data {
+                    let currentX = self.paddle.position.x
+                    self.newX = currentX + CGFloat((data.acceleration.y) * 700)
+                    self.newX = max(self.newX!, self.paddle.size.width / 2) // Left most position
+                    self.newX = min(self.newX!, self.size.width - self.paddle.size.width / 2) // Right most position
+                }
+            })
+        }
+    }
+    
+    // Marker: Game Starts here
+    //
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches Began fired")
-        switch gameState.currentState {
-            
-        case is Waiting:
+        if gameState.currentState is Waiting {
             print("In waiting state")
             gameState.enter(Playing.self)
-            fingerIsOnPaddle = true
-        
-        case is Playing:
-            print("In playing state")
-            if let touch = touches.first {
-                let location = touch.location(in: self)
-                let body: SKPhysicsBody? = self.physicsWorld.body(at: location)
-                
-                if body?.node?.name == paddleCategoryName {
-                    fingerIsOnPaddle = true
-                }
-            }
-        default:
-            print("In default state")
-            print("gameState.currentState: \(String(describing: gameState.currentState))")
-            break
+            manageDeviceMotion()
+            startTimer()
         }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if fingerIsOnPaddle {
-            if let touch = touches.first {
-                let location = touch.location(in: self)
-                let prevLocation = touch.previousLocation(in: self)
-                
-                if let paddle = self.childNode(withName: paddleCategoryName) as? SKSpriteNode {
-                    var newXPos = paddle.position.x + (location.x - prevLocation.x)
-                    newXPos = max(newXPos, paddle.size.width / 2)
-                    newXPos = min(newXPos, self.size.width - paddle.size.width / 2)
-                    paddle.position = CGPoint(x: newXPos, y: paddle.position.y)
-                }
-            }
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        fingerIsOnPaddle = false
     }
     
     // Marker: SKPhysicsContactDelegate
@@ -249,8 +266,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Game Over - the ball hit the bottom of the screen
             //
             print("Game Over")
-            let gameOverScene = GameOverScene(size: self.frame.size)
-            self.view?.presentScene(gameOverScene)
+            // let gameOverScene = GameOverScene(size: self.frame.size)
+            // self.view?.presentScene(gameOverScene)
         }
         
         if firstBody.categoryBitMask == ballCategoryBitMask && secondBody.categoryBitMask == brickCategoryBitMask {
@@ -259,28 +276,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("ball hit a brick")
             run(brickHitSound)
             secondBody.node?.removeFromParent()
-            
-            if isGameOver() {
-                print("You Win")
-            }
         }
         
         if firstBody.categoryBitMask == ballCategoryBitMask && secondBody.categoryBitMask == paddleCategoryBitMask ||
             secondBody.categoryBitMask == borderCategoryBitMask {
             run(paddleHitSound)
         }
-    }
-    
-    func isGameOver() -> Bool {
-        var numberOfBricks = 0
-        
-        for nodeObject in self.children {
-            let node = nodeObject as SKNode
-            if node.name == brickCategoryName {
-                numberOfBricks += 1
-            }
-        }
-        return numberOfBricks <= 0
     }
     
     func randomFloat(from: CGFloat, to: CGFloat) -> CGFloat {

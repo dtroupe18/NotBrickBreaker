@@ -148,6 +148,14 @@
 			path = Particles;
 			sourceTree = "<group>";
 		};
+		554FAA2D203A442A00E61639 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				555E96F62038B286005C06ED /* GameViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		555E96E22038B286005C06ED = {
 			isa = PBXGroup;
 			children = (
@@ -171,14 +179,14 @@
 		555E96ED2038B286005C06ED /* NotBrickBreaker */ = {
 			isa = PBXGroup;
 			children = (
-				554FAA16203A295D00E61639 /* GameStates */,
+				554FAA2D203A442A00E61639 /* ViewControllers */,
 				554FAA13203A17F600E61639 /* Scenes */,
+				554FAA16203A295D00E61639 /* GameStates */,
 				554FAA22203A412700E61639 /* Particles */,
 				554FA9CE2038CD1900E61639 /* Sounds */,
 				555E96EE2038B286005C06ED /* AppDelegate.swift */,
 				555E96F02038B286005C06ED /* GameScene.sks */,
 				555E96F22038B286005C06ED /* Actions.sks */,
-				555E96F62038B286005C06ED /* GameViewController.swift */,
 				555E96F82038B286005C06ED /* Main.storyboard */,
 				555E96FB2038B286005C06ED /* Assets.xcassets */,
 				555E96FD2038B286005C06ED /* LaunchScreen.storyboard */,
