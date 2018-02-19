@@ -13,7 +13,6 @@ class Playing: GKState {
     
     unowned let scene: GameScene
     let speedFactor: CGFloat = 3.0
-    let maxVelocity: CGFloat = 400.0
     
     init(scene: SKScene) {
         self.scene = scene as! GameScene
@@ -46,6 +45,8 @@ class Playing: GKState {
                     ball.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: randomStartingDirection()))
                 }
                 
+                // print("Ball speed: \(speed)")
+                
                 if speed > maxVelocity {
                     ball.physicsBody?.linearDamping = 0.4
                 } else {
@@ -67,11 +68,4 @@ class Playing: GKState {
             return speedFactor
         }
     }
-    
-    
-    
-    
-    
-    
-    
 }

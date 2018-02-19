@@ -15,10 +15,15 @@ let ballCategoryName = "ball"
 let paddleCategoryName = "paddle"
 let brickCategoryName = "brick"
 let tapLabelCategoryName = "tapLabel"
+let maxVelocity: CGFloat = 350.0
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let ball = SKSpriteNode(imageNamed: "Ball")
     let paddle = SKSpriteNode(imageNamed: "Paddle")
+    
+    var initialDx: CGFloat = 0.0
+    var initialDy: CGFloat = 0.0
     
     let motionManager = CMMotionManager()
     var newX: CGFloat?
@@ -108,7 +113,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Marker: Ball
         //
-        let ball = SKSpriteNode(imageNamed: "Ball")
         ball.size = CGSize(width: 25, height: 25)
         ball.name = ballCategoryName
         ball.position = CGPoint(x: self.frame.size.width / 3, y: self.frame.size.height / 3)
@@ -157,48 +161,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bottom.physicsBody = SKPhysicsBody(edgeLoopFrom: bottomRect)
         bottom.physicsBody?.categoryBitMask = bottomCategoryBitMask
         self.addChild(bottom)
-        
-        // Marker: Bricks
-        //
-        let numberOfRows = 2
-        let numberOfBricks = 10
-        let brickWidth = SKSpriteNode(imageNamed: "Brick").size.width // 20
-        let padding: Float = 20.0
-        let offset: Float = (Float(self.frame.size.width) - (Float(brickWidth) * Float(numberOfBricks) + padding * Float(numberOfBricks - 1))) / 2
-        
-        for row in 1...numberOfRows {
-            var yOffset: CGFloat {
-                switch row {
-                case 1:
-                    return self.frame.size.height * 0.8
-                case 2:
-                    return self.frame.size.height * 0.6
-                case 3:
-                    return self.frame.size.height * 0.4
-                default:
-                    return 0
-                }
-            }
-            for col in 1...numberOfBricks {
-                let brick = SKSpriteNode(imageNamed: "Brick")
-                
-                let calcOne: Float = Float(col) - 0.5
-                let calcTwo: Float = Float(col) - 1.0
-                
-                brick.size = CGSize(width: 20, height: 20)
-                brick.position = CGPoint(x: CGFloat(calcOne * Float(brick.frame.size.width) + calcTwo * padding + offset), y: yOffset)
-                
-                brick.physicsBody = SKPhysicsBody(rectangleOf: brick.frame.size)
-                brick.physicsBody?.linearDamping = 0
-                brick.physicsBody?.allowsRotation = false
-                brick.physicsBody?.isDynamic = false // Prevents the ball from slowing down when it hits a brick
-                brick.physicsBody?.affectedByGravity = false
-                brick.physicsBody?.friction = 0.0
-                brick.physicsBody?.categoryBitMask = brickCategoryBitMask
-                brick.name = brickCategoryName
-                self.addChild(brick)
-            }
-        }
     }
     
     func startTimer() {
@@ -210,6 +172,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(sequence), withKey: "Timer")
     }
     
+    func addRandomBricks() {
+        let wait = SKAction.wait(forDuration: 1.0)
+        let block = SKAction.run({
+            let randomX = self.randomFloat(from: 0, to: self.frame.size.width - 20)
+            let randomY = self.randomFloat(from: 0, to: self.frame.size.height - 20)
+            let brick = SKSpriteNode(imageNamed: "Brick")
+            brick.position = CGPoint(x: randomX, y: randomY)
+            brick.size = CGSize(width: 20, height: 20)
+            brick.physicsBody = SKPhysicsBody(rectangleOf: brick.frame.size)
+            brick.physicsBody?.linearDamping = 0
+            brick.physicsBody?.allowsRotation = false
+            brick.physicsBody?.isDynamic = false // Prevents the ball from slowing down when it hits a brick
+            brick.physicsBody?.affectedByGravity = false
+            brick.physicsBody?.friction = 0.0
+            brick.physicsBody?.categoryBitMask = self.brickCategoryBitMask
+            brick.name = brickCategoryName
+            self.addChild(brick)
+        })
+        let sequence = SKAction.sequence([wait, block])
+        run(SKAction.repeatForever(sequence), withKey: "addBlock")
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         gameState.update(deltaTime: currentTime)
         
@@ -217,8 +201,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let moveAction = SKAction.move(to: CGPoint(x: xValue, y: paddle.position.y), duration: 0.125)
             paddle.run(moveAction)
         }
+        
+        if let physicsBody = ball.physicsBody {
+            initialDx = abs(physicsBody.velocity.dx)
+            initialDy = abs(physicsBody.velocity.dy)
+        }
     }
     
+    // Marker: Increase ball speed every second until max velocity is reached
+    override func didSimulatePhysics() {
+        guard let physicsBody = ball.physicsBody else { return }
+
+        let increaseAmount: CGFloat = 0.015625 // 1/64
+
+        if abs(physicsBody.velocity.dx) < abs(initialDx) && abs(physicsBody.velocity.dx) < maxVelocity {
+            physicsBody.velocity.dx = physicsBody.velocity.dx < 0 ? -initialDx - increaseAmount : initialDx + increaseAmount
+        }
+
+        if abs(physicsBody.velocity.dy) < abs(initialDy) && abs(physicsBody.velocity.dy) < maxVelocity {
+            physicsBody.velocity.dy = physicsBody.velocity.dy < 0 ? -initialDy - increaseAmount : initialDy + increaseAmount
+        }
+
+        print("new velocityDx: \(String(describing: ball.physicsBody?.velocity.dx))")
+        print("new velocityDy: \(String(describing: ball.physicsBody?.velocity.dy))")
+    }
+    
+    // Marker: Paddle Movement
+    //
     func manageDeviceMotion() {
         // Move the paddle by tilting the screen
         // Since this game is played in landscape we are concerned with acceleration in the y direction
@@ -242,11 +251,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("In waiting state")
             gameState.enter(Playing.self)
             manageDeviceMotion()
+            addRandomBricks()
             startTimer()
         }
     }
     
-    // Marker: SKPhysicsContactDelegate
+    // Marker: Collision / SKPhysicsContactDelegate
     //
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody = SKPhysicsBody()
