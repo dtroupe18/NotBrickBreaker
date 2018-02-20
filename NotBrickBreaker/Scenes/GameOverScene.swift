@@ -21,13 +21,22 @@ class GameOverScene: SKScene {
         bg.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(bg)
         
-        // GameOver Label
+        // Game over Label
         //
         let gameOverLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
         gameOverLabel.fontSize = 46
         gameOverLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         gameOverLabel.text = "GAME OVER"
         self.addChild(gameOverLabel)
+        
+        // Score Label
+        //
+        let scoreLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
+        scoreLabel.fontSize = 35
+        scoreLabel.text = "Score: \(GameScene.score)"
+        scoreLabel.fontColor = UIColor.init(red: 57/255, green: 255/255, blue: 20/255, alpha: 1.0)
+        scoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY + gameOverLabel.frame.height + 20)
+        self.addChild(scoreLabel)
     }
     
     override func didMove(to view: SKView) {

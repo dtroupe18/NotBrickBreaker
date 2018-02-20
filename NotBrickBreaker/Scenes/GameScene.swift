@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let motionManager = CMMotionManager()
     var newX: CGFloat?
     
-    // Game Timer
+    // Game Timer (score)
     //
     var timeLabel = SKLabelNode(fontNamed: "ArialMT")
     var timeValue: Int = 0 {
@@ -36,6 +36,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             timeLabel.text = "\(timeValue)"
         }
     }
+    
+    static var score: Int = 0
     
     lazy var gameState: GKStateMachine = GKStateMachine(states: [
         Waiting(scene: self),
@@ -172,13 +174,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(sequence), withKey: "Timer")
     }
     
+    // Marker: Bricks
+    // This function randomly places brick around the game scene to make the game for difficult
+    //
     func addRandomBricks() {
-        let wait = SKAction.wait(forDuration: 1.0)
+        let wait = SKAction.wait(forDuration: 1.5)
         let block = SKAction.run({
-            let randomX = self.randomFloat(from: 0, to: self.frame.size.width - 20)
-            let randomY = self.randomFloat(from: 0, to: self.frame.size.height - 20)
+            let randomX = self.randomFloat(from: 20, to: self.frame.size.width - 20)
+            let randomY = self.randomFloat(from: self.paddle.frame.height + 40, to: self.frame.size.height - 20)
             let brick = SKSpriteNode(imageNamed: "Brick")
-            brick.position = CGPoint(x: randomX, y: randomY)
+            
+            if !self.timeLabel.frame.contains(CGPoint(x: randomX, y: randomY)) {
+                brick.position = CGPoint(x: randomX, y: randomY)
+            } else {
+                brick.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+            }
             brick.size = CGSize(width: 20, height: 20)
             brick.physicsBody = SKPhysicsBody(rectangleOf: brick.frame.size)
             brick.physicsBody?.linearDamping = 0
@@ -198,7 +208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameState.update(deltaTime: currentTime)
         
         if let xValue = newX {
-            let moveAction = SKAction.move(to: CGPoint(x: xValue, y: paddle.position.y), duration: 0.125)
+            let moveAction = SKAction.move(to: CGPoint(x: xValue, y: paddle.position.y), duration: 0.0625)
             paddle.run(moveAction)
         }
         
@@ -212,7 +222,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didSimulatePhysics() {
         guard let physicsBody = ball.physicsBody else { return }
 
-        let increaseAmount: CGFloat = 0.015625 // 1/64
+        let increaseAmount: CGFloat = 0.015625 //  (1/64)
 
         if abs(physicsBody.velocity.dx) < abs(initialDx) && abs(physicsBody.velocity.dx) < maxVelocity {
             physicsBody.velocity.dx = physicsBody.velocity.dx < 0 ? -initialDx - increaseAmount : initialDx + increaseAmount
@@ -222,8 +232,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             physicsBody.velocity.dy = physicsBody.velocity.dy < 0 ? -initialDy - increaseAmount : initialDy + increaseAmount
         }
 
-        print("new velocityDx: \(String(describing: ball.physicsBody?.velocity.dx))")
-        print("new velocityDy: \(String(describing: ball.physicsBody?.velocity.dy))")
+        // print("new velocityDx: \(String(describing: ball.physicsBody?.velocity.dx))")
+        // print("new velocityDy: \(String(describing: ball.physicsBody?.velocity.dy))")
     }
     
     // Marker: Paddle Movement
@@ -276,8 +286,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Game Over - the ball hit the bottom of the screen
             //
             print("Game Over")
-            // let gameOverScene = GameOverScene(size: self.frame.size)
-            // self.view?.presentScene(gameOverScene)
+            GameScene.score = timeValue
+            let gameOverScene = GameOverScene(size: self.frame.size)
+            self.view?.presentScene(gameOverScene)
         }
         
         if firstBody.categoryBitMask == ballCategoryBitMask && secondBody.categoryBitMask == brickCategoryBitMask {
