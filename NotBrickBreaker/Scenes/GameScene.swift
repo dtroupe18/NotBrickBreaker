@@ -14,14 +14,26 @@ import CoreMotion
 let ballCategoryName = "ball"
 let paddleCategoryName = "paddle"
 let brickCategoryName = "brick"
-let tapLabelCategoryName = "tapLabel"
-let maxVelocity: CGFloat = 350.0
+let easyLabelCategoryName = "easyLabel"
+let mediumLabelCategoryName = "mediumLabel"
+let hardLabelCategoryName = "hardLabel"
+
+let maxVelocity: CGFloat = 300.0
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ball = SKSpriteNode(imageNamed: "Ball")
     let paddle = SKSpriteNode(imageNamed: "Paddle")
+    let playButton = SKSpriteNode(imageNamed: "PlayButton")
     
+    let easyLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
+    let mediumLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
+    let hardLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
+    
+    var isHardGame: Bool = false
+    
+    // Only used in a Hard game
+    //
     var initialDx: CGFloat = 0.0
     var initialDy: CGFloat = 0.0
     
@@ -102,14 +114,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         timeLabel.text = "\(timeValue)"
         self.addChild(timeLabel)
         
-        // Marker: Tap to Start
+        // Marker: Easy, Medium, Hard
         //
-        let tapLabel = SKLabelNode(fontNamed: "ChalkboardSE-Light")
-        tapLabel.fontSize = 40
-        tapLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 30)
-        tapLabel.text = "Tap to start playing"
-        tapLabel.name = tapLabelCategoryName
-        self.addChild(tapLabel)
+        easyLabel.fontSize = 30
+        easyLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 50)
+        easyLabel.text = "Easy"
+        easyLabel.name = easyLabelCategoryName
+        self.addChild(easyLabel)
+        
+        mediumLabel.fontSize = 30
+        mediumLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        mediumLabel.text = "Medium"
+        mediumLabel.name = mediumLabelCategoryName
+        self.addChild(mediumLabel)
+        
+        hardLabel.fontSize = 30
+        hardLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 50)
+        hardLabel.text = "hard"
+        hardLabel.name = hardLabelCategoryName
+        self.addChild(hardLabel)
         
         gameState.enter(Waiting.self)
         
@@ -117,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //
         ball.size = CGSize(width: 25, height: 25)
         ball.name = ballCategoryName
-        ball.position = CGPoint(x: self.frame.size.width / 3, y: self.frame.size.height / 3)
+        ball.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 100)
         self.addChild(ball)
     
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.width / 2) // (diameter / 2) = radius
@@ -147,7 +170,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //
         paddle.name = paddleCategoryName
         paddle.position = CGPoint(x: self.frame.midX, y: paddle.frame.height * 2)
-        
+        paddle.size = CGSize(width: 150, height: 15)
         paddle.physicsBody = SKPhysicsBody(rectangleOf: paddle.frame.size)
         paddle.physicsBody?.categoryBitMask = paddleCategoryBitMask
         paddle.physicsBody?.friction = 0.4
@@ -165,6 +188,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(bottom)
     }
     
+    // Marker: Game Timer
+    //
     func startTimer() {
         let wait = SKAction.wait(forDuration: 1.0)
         let block = SKAction.run({
@@ -175,16 +200,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // Marker: Bricks
-    // This function randomly places brick around the game scene to make the game for difficult
     //
     func addRandomBricks() {
+        // This function randomly places brick around the game scene to make the game for difficult
+        //
         let wait = SKAction.wait(forDuration: 1.5)
         let block = SKAction.run({
             let randomX = self.randomFloat(from: 20, to: self.frame.size.width - 20)
-            let randomY = self.randomFloat(from: self.paddle.frame.height + 40, to: self.frame.size.height - 20)
+            let randomY = self.randomFloat(from: self.paddle.frame.height + 80, to: self.frame.size.height - 20)
             let brick = SKSpriteNode(imageNamed: "Brick")
             
-            if !self.timeLabel.frame.contains(CGPoint(x: randomX, y: randomY)) {
+            let timeLabelFrame = CGRect(x: self.frame.width - 75, y: self.frame.height - 75, width: 75, height: 75)
+            
+            if !timeLabelFrame.contains(CGPoint(x: randomX, y: randomY)) {
                 brick.position = CGPoint(x: randomX, y: randomY)
             } else {
                 brick.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
@@ -204,7 +232,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(sequence), withKey: "addBlock")
     }
     
+    // Marker: Update
+    //
     override func update(_ currentTime: TimeInterval) {
+        // Fires before every frame
+        //
         gameState.update(deltaTime: currentTime)
         
         if let xValue = newX {
@@ -218,22 +250,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // Marker: Increase ball speed every second until max velocity is reached
+    // Marker: Increase ball speed every second until max velocity is reached (Hard Game only)
+    //
     override func didSimulatePhysics() {
-        guard let physicsBody = ball.physicsBody else { return }
-
-        let increaseAmount: CGFloat = 0.015625 //  (1/64)
-
-        if abs(physicsBody.velocity.dx) < abs(initialDx) && abs(physicsBody.velocity.dx) < maxVelocity {
-            physicsBody.velocity.dx = physicsBody.velocity.dx < 0 ? -initialDx - increaseAmount : initialDx + increaseAmount
+        if isHardGame {
+            guard let physicsBody = ball.physicsBody else { return }
+            
+            let increaseAmount: CGFloat = 1.0
+            if abs(physicsBody.velocity.dx) < abs(initialDx) && abs(physicsBody.velocity.dx) < maxVelocity {
+                physicsBody.velocity.dx = physicsBody.velocity.dx < 0 ? -initialDx - increaseAmount : initialDx + increaseAmount
+            }
+            
+            if abs(physicsBody.velocity.dy) < abs(initialDy) && abs(physicsBody.velocity.dy) < maxVelocity {
+                physicsBody.velocity.dy = physicsBody.velocity.dy < 0 ? -initialDy - increaseAmount : initialDy + increaseAmount
+            }
+            
+            // print("new velocityDx: \(String(describing: ball.physicsBody?.velocity.dx))")
+            // print("new velocityDy: \(String(describing: ball.physicsBody?.velocity.dy))")
         }
-
-        if abs(physicsBody.velocity.dy) < abs(initialDy) && abs(physicsBody.velocity.dy) < maxVelocity {
-            physicsBody.velocity.dy = physicsBody.velocity.dy < 0 ? -initialDy - increaseAmount : initialDy + increaseAmount
-        }
-
-        // print("new velocityDx: \(String(describing: ball.physicsBody?.velocity.dx))")
-        // print("new velocityDy: \(String(describing: ball.physicsBody?.velocity.dy))")
+    }
+    
+    // Marker: Adjusting paddle size over time
+    //
+    func shrinkPaddle() {
+        let wait = SKAction.wait(forDuration: 5)
+        let block = SKAction.run({
+            let resizeAction = SKAction.resize(toWidth: self.paddle.size.width - 5, duration: 0.1)
+            self.paddle.run(resizeAction)
+            self.adjustPaddlePhysicsBody()
+            // print("paddle.size.with: \(self.paddle.size.width)")
+        })
+        let sequence = SKAction.sequence([wait, block])
+        run(SKAction.repeat((sequence), count: 10))
+    }
+    
+    // Marker: Adjust Paddle PhysicsBody
+    //
+    func adjustPaddlePhysicsBody() {
+        // You cannot adjust the size of a phyiscsBody so we create a new one
+        // every time the size of the paddle is decreased
+        //
+        paddle.physicsBody = SKPhysicsBody(rectangleOf: paddle.frame.size)
+        paddle.physicsBody?.categoryBitMask = paddleCategoryBitMask
+        paddle.physicsBody?.friction = 0.4
+        paddle.physicsBody?.linearDamping = 0
+        paddle.physicsBody?.restitution = 0.1 // Not sure
+        paddle.physicsBody?.isDynamic = false
     }
     
     // Marker: Paddle Movement
@@ -254,15 +316,73 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // Marker: Game Starts here
+    // Marker: Touches began
     //
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if gameState.currentState is Waiting {
             print("In waiting state")
-            gameState.enter(Playing.self)
-            manageDeviceMotion()
-            addRandomBricks()
-            startTimer()
+            if let touch = touches.first {
+                if easyLabel.contains(touch.location(in: self)) {
+                    // Start an easy game
+                    //
+                    gameState.enter(Playing.self)
+                    manageDeviceMotion()
+                    addRandomBricks()
+                    // No shrinking paddle
+                    //
+                    startTimer()
+                }
+                else if mediumLabel.contains(touch.location(in: self)) {
+                    // Start an medium game
+                    //
+                    gameState.enter(Playing.self)
+                    manageDeviceMotion()
+                    addRandomBricks()
+                    shrinkPaddle()
+                    startTimer()
+                }
+                else if hardLabel.contains(touch.location(in: self)) {
+                    // Start a hard game
+                    //
+                    gameState.enter(Playing.self)
+                    manageDeviceMotion()
+                    addRandomBricks()
+                    shrinkPaddle()
+                    startTimer()
+                    // Speed the ball up over time
+                    //
+                    isHardGame = true
+                }
+            }
+        }
+        else if gameState.currentState is Playing {
+            // Pause the game
+            //
+            if let view = view {
+                if view.isPaused {
+                    if let touch = touches.first {
+                        if playButton.contains(touch.location(in: self)) {
+                            // Resume the game and remove play button
+                            //
+                            view.isPaused = false
+                            playButton.removeFromParent()
+                        }
+                    }
+                } else {
+                    // Pause the game and put the play button on the screen
+                    //
+                    musicPlayer.pause()
+                    playButton.size = CGSize(width: 100, height: 100)
+                    playButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+                    playButton.zPosition = 999
+                    self.addChild(playButton)
+                    
+                    let pauseAction = SKAction.run {
+                        view.isPaused = true
+                    }
+                    self.run(pauseAction)
+                }
+            }
         }
     }
     
@@ -285,8 +405,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstBody.categoryBitMask == ballCategoryBitMask && secondBody.categoryBitMask == bottomCategoryBitMask {
             // Game Over - the ball hit the bottom of the screen
             //
-            print("Game Over")
+            // print("Game Over")
             GameScene.score = timeValue
+            musicPlayer.stop()
             let gameOverScene = GameOverScene(size: self.frame.size)
             self.view?.presentScene(gameOverScene)
         }
@@ -294,17 +415,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstBody.categoryBitMask == ballCategoryBitMask && secondBody.categoryBitMask == brickCategoryBitMask {
             // Ball hit a brick
             //
-            print("ball hit a brick")
+            // print("ball hit a brick")
             run(brickHitSound)
             secondBody.node?.removeFromParent()
         }
         
         if firstBody.categoryBitMask == ballCategoryBitMask && secondBody.categoryBitMask == paddleCategoryBitMask ||
             secondBody.categoryBitMask == borderCategoryBitMask {
+            // Ball hit paddle or border
+            //
             run(paddleHitSound)
         }
     }
     
+    // Marker: Random number generation
+    //
     func randomFloat(from: CGFloat, to: CGFloat) -> CGFloat {
         // Used to randomize the starting direction of the ball
         //
