@@ -30,6 +30,12 @@
 		555E96FF2038B286005C06ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555E96FD2038B286005C06ED /* LaunchScreen.storyboard */; };
 		555E970A2038B286005C06ED /* NotBrickBreakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555E97092038B286005C06ED /* NotBrickBreakerTests.swift */; };
 		555E97152038B286005C06ED /* NotBrickBreakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555E97142038B286005C06ED /* NotBrickBreakerUITests.swift */; };
+		5574755B203E2E9100FFBD16 /* DemoVideo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5574755A203E2E9100FFBD16 /* DemoVideo.gif */; };
+		55747561203E2F8900FFBD16 /* 1.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 5574755C203E2F8900FFBD16 /* 1.PNG */; };
+		55747562203E2F8900FFBD16 /* 2.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 5574755D203E2F8900FFBD16 /* 2.PNG */; };
+		55747563203E2F8900FFBD16 /* 3.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 5574755E203E2F8900FFBD16 /* 3.PNG */; };
+		55747564203E2F8900FFBD16 /* 5.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 5574755F203E2F8900FFBD16 /* 5.PNG */; };
+		55747565203E2F8900FFBD16 /* 4.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 55747560203E2F8900FFBD16 /* 4.PNG */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +85,12 @@
 		555E97102038B286005C06ED /* NotBrickBreakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotBrickBreakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		555E97142038B286005C06ED /* NotBrickBreakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBrickBreakerUITests.swift; sourceTree = "<group>"; };
 		555E97162038B286005C06ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5574755A203E2E9100FFBD16 /* DemoVideo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DemoVideo.gif; sourceTree = "<group>"; };
+		5574755C203E2F8900FFBD16 /* 1.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.PNG; sourceTree = "<group>"; };
+		5574755D203E2F8900FFBD16 /* 2.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.PNG; sourceTree = "<group>"; };
+		5574755E203E2F8900FFBD16 /* 3.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.PNG; sourceTree = "<group>"; };
+		5574755F203E2F8900FFBD16 /* 5.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5.PNG; sourceTree = "<group>"; };
+		55747560203E2F8900FFBD16 /* 4.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.PNG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +203,7 @@
 				555E96FB2038B286005C06ED /* Assets.xcassets */,
 				555E96FD2038B286005C06ED /* LaunchScreen.storyboard */,
 				555E97002038B286005C06ED /* Info.plist */,
+				55747559203E2E4A00FFBD16 /* Sample */,
 			);
 			path = NotBrickBreaker;
 			sourceTree = "<group>";
@@ -211,6 +224,19 @@
 				555E97162038B286005C06ED /* Info.plist */,
 			);
 			path = NotBrickBreakerUITests;
+			sourceTree = "<group>";
+		};
+		55747559203E2E4A00FFBD16 /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				5574755C203E2F8900FFBD16 /* 1.PNG */,
+				5574755D203E2F8900FFBD16 /* 2.PNG */,
+				5574755E203E2F8900FFBD16 /* 3.PNG */,
+				55747560203E2F8900FFBD16 /* 4.PNG */,
+				5574755F203E2F8900FFBD16 /* 5.PNG */,
+				5574755A203E2E9100FFBD16 /* DemoVideo.gif */,
+			);
+			path = Sample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,17 +347,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				554FAA21203A3B6300E61639 /* gameOverSound.wav in Resources */,
+				5574755B203E2E9100FFBD16 /* DemoVideo.gif in Resources */,
 				554FA9D12038CD2300E61639 /* BackgroundMusic.wav in Resources */,
 				554FAA26203A415A00E61639 /* Assets.xcassets in Resources */,
 				554FAA2C203A421F00E61639 /* Spark.sks in Resources */,
+				55747562203E2F8900FFBD16 /* 2.PNG in Resources */,
 				555E96FA2038B286005C06ED /* Main.storyboard in Resources */,
 				554FAA2A203A420400E61639 /* Magic.sks in Resources */,
 				555E96F12038B286005C06ED /* GameScene.sks in Resources */,
+				55747563203E2F8900FFBD16 /* 3.PNG in Resources */,
 				555E96FC2038B286005C06ED /* Assets.xcassets in Resources */,
+				55747561203E2F8900FFBD16 /* 1.PNG in Resources */,
 				554FAA25203A415A00E61639 /* Flame.sks in Resources */,
 				554FA9D22038CD2300E61639 /* paddleHitSound.wav in Resources */,
 				555E96FF2038B286005C06ED /* LaunchScreen.storyboard in Resources */,
 				554FAA28203A41E700E61639 /* Bokeh.sks in Resources */,
+				55747565203E2F8900FFBD16 /* 4.PNG in Resources */,
+				55747564203E2F8900FFBD16 /* 5.PNG in Resources */,
 				554FAA1F203A392E00E61639 /* brickHitSound.wav in Resources */,
 				555E96F32038B286005C06ED /* Actions.sks in Resources */,
 			);
@@ -534,7 +566,7 @@
 				DEVELOPMENT_TEAM = D3D7B5BPEZ;
 				INFOPLIST_FILE = NotBrickBreaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.HighTreeDevelopment.OutsideNow.NotBrickBreaker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HighTreeDevelopment.NotBrickBreaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -549,7 +581,7 @@
 				DEVELOPMENT_TEAM = D3D7B5BPEZ;
 				INFOPLIST_FILE = NotBrickBreaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.HighTreeDevelopment.OutsideNow.NotBrickBreaker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HighTreeDevelopment.NotBrickBreaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
