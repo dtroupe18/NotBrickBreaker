@@ -12,7 +12,7 @@ import GameplayKit
 class Playing: GKState {
     
     unowned let scene: GameScene
-    let speedFactor: CGFloat = 3.0
+    let speedFactor: CGFloat = 3.5
     
     init(scene: SKScene) {
         self.scene = scene as! GameScene
@@ -38,6 +38,7 @@ class Playing: GKState {
                 
                 // Prevent the ball from getting trapped vertically or horizontally
                 // Add a force in the x or y direction if needed
+                //
                 if xSpeed <= 10.0 {
                     ball.physicsBody?.applyImpulse(CGVector(dx: randomStartingDirection(), dy: 0.0))
                 }

@@ -308,7 +308,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: { data, error in
                 if let data = data {
                     let currentX = self.paddle.position.x
-                    self.newX = currentX + CGFloat((data.acceleration.y) * 700)
+                    if UIDevice.current.orientation == .landscapeLeft {
+                        self.newX = currentX - CGFloat((data.acceleration.y) * 700)
+                    } else {
+                        self.newX = currentX + CGFloat((data.acceleration.y) * 700)
+                    }
+                    
                     self.newX = max(self.newX!, self.paddle.size.width / 2) // Left most position
                     self.newX = min(self.newX!, self.size.width - self.paddle.size.width / 2) // Right most position
                 }
