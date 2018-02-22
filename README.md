@@ -1,6 +1,9 @@
-# NotBrickBreaker - Is a simple game a made to get some experience working with SpriteKit and GameplayKit.
+# Random Bricks - Is a simple game a made to get some experience working with SpriteKit and GameplayKit.
 
-Not Brick Breaker is a new take on a classic game. Tilt your phone to play this never ending game. 
+Random Bricks is similar to other "Brick breaker" games except the bricks are randomly placed on the screen and the main objective is to keep the ball on the screen for as long as possible. This sounds easy, but as time goes on and more bricks are placed on the screen the ball can make unexpected moves that are difficult to predict where the ball will go next.
+
+Random Bricks makes use of the built in accelerometer in your phone to allow you to move the paddle by moving your phone. 
+
 Three difficulty levels. Every game is different since block placement is random.
 
 ## How to play:
@@ -16,7 +19,6 @@ Three difficulty levels. Every game is different since block placement is random
   1. [SpriteKit](https://developer.apple.com/documentation/spritekit)
   2. [GameplayKit](https://developer.apple.com/documentation/gameplaykit)
   3. [CoreMotion](https://developer.apple.com/documentation/coremotion)
-
 
 ## Sample Video:
 
