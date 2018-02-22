@@ -1,4 +1,4 @@
-# Random Bricks - Is a simple game a made to get some experience working with SpriteKit and GameplayKit.
+# Random Bricks - is a simple game a made to get some experience working with SpriteKit and GameplayKit.
 
 Random Bricks is similar to other "Brick breaker" games except the bricks are randomly placed on the screen and the main objective is to keep the ball on the screen for as long as possible. This sounds easy, but as time goes on and more bricks are placed on the screen the ball can make unexpected moves that are difficult to predict where the ball will go next.
 
@@ -22,16 +22,16 @@ Three difficulty levels. Every game is different since block placement is random
 
 ## Sample Video:
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/NotBrickBreaker/Sample/DemoVideo.gif)
+![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/DemoVideo.gif)
 
 ## Sample ScreenShots:
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/NotBrickBreaker/Sample/1.PNG)
+![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/1.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/NotBrickBreaker/Sample/2.PNG)
+![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/2.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/NotBrickBreaker/Sample/3.PNG)
+![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/3.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/NotBrickBreaker/Sample/4.PNG)
+![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/4.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/NotBrickBreaker/Sample/5.PNG)
+![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/5.PNG)
