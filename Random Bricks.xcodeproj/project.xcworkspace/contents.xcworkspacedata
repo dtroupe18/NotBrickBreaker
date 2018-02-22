@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:NotBrickBreaker.xcodeproj">
+      location = "self:/Users/Dave/Documents/iOS_Applications/NotBrickBreaker/Random Bricks.xcodeproj">
    </FileRef>
 </Workspace>
