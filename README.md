@@ -22,16 +22,16 @@ Three difficulty levels. Every game is different since block placement is random
 
 ## Sample Video:
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/DemoVideo.gif)
+![Alt Text](https://github.com/dtroupe18/RandomBricks/blob/master/Random%20Bricks/Sample/DemoVideo.gif)
 
 ## Sample ScreenShots:
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/1.PNG)
+![Alt Text](https://github.com/dtroupe18/RandomBricks/blob/master/Random%20Bricks/Sample/1.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/2.PNG)
+![Alt Text](https://github.com/dtroupe18/RandomBricks/blob/master/Random%20Bricks/Sample/2.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/3.PNG)
+![Alt Text](https://github.com/dtroupe18/RandomBricks/blob/master/Random%20Bricks/Sample/3.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/4.PNG)
+![Alt Text](https://github.com/dtroupe18/RandomBricks/blob/master/Random%20Bricks/Sample/4.PNG)
 
-![Alt Text](https://github.com/dtroupe18/NotBrickBreaker/blob/master/RandomBricks/Sample/5.PNG)
+![Alt Text](https://github.com/dtroupe18/RandomBricks/blob/master/Random%20Bricks/Sample/5.PNG)
