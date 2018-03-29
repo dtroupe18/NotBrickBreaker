@@ -1,5 +1,7 @@
 # Random Bricks - is a simple game a made to get some experience working with SpriteKit and GameplayKit.
 
+## [App Store Link](https://itunes.apple.com/us/app/random-bricks/id1350137132?mt=8)
+
 Random Bricks is similar to other "Brick breaker" games except the bricks are randomly placed on the screen and the main objective is to keep the ball on the screen for as long as possible. This sounds easy, but as time goes on and more bricks are placed on the screen the ball can make unexpected moves that are difficult to predict where the ball will go next.
 
 Random Bricks makes use of the built in accelerometer in your phone to allow you to move the paddle by moving your phone. 
